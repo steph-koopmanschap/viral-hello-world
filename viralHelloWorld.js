@@ -48,7 +48,7 @@ function randIntRange(min, max) {
 //(line) is the read line from viralHelloWorld.js.
 function writeLine(line) {
     debugLog(line);
-    //write to output.txt
+    //write to outputFileName.js
     fileWriteStream.write(line + os.EOL); 
 }
 
@@ -60,7 +60,7 @@ readFileStream = fs.createReadStream('viralHelloWorld.js');
 inputInterface = readline.createInterface({
     input: readFileStream
 });
-//Create a large random number to append to the filename
+//Create a large random number to append to the filename (to prevent duplicate filename errors.)
 fileId = randIntRange(1, 99999999999999);
 //Append the id to the filename
 outputFileName = "viralHelloWorld" + fileId + ".js";
@@ -71,7 +71,7 @@ fileWriteStream = fs.createWriteStream(outputFileName, 'utf8');
 
 //Call writeLine whenever a line is read. (line event is emmitted)
 inputInterface.on('line', writeLine);
-//Call this function when file reading finished.
+//Call this function when file reading is finished.
 readFileStream.on('end', () => {
     //Close the file writing stream;
     fileWriteStream.end();
@@ -80,7 +80,7 @@ readFileStream.on('end', () => {
         if (err) {
             console.log(`File can't be read: ${err}`);
         } else {
-            console.log("Hello World From" + outputFileName);
+            console.log("Hello World from" + outputFileName);
             fileContent = data;
             //execute the copied file
             eval(fileContent);
